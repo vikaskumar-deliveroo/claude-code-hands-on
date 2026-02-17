@@ -1,6 +1,6 @@
 # Claude Code Practical Workshop (60 min)
 
-> Hands-on session for software engineers. Each chapter builds on the previous one.
+> Hands-on session to learn about Code Claude. Each chapter builds on the previous one.
 > Go backend examples throughout. Follow along in your terminal.
 
 ## Chapters

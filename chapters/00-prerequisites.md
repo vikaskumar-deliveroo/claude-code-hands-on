@@ -20,10 +20,15 @@ gh --version            # GitHub CLI (for PR workflows)
 xcode-select --install          # or: brew install git
 
 # Claude Code
-npm install -g @anthropic-ai/claude-code
-or 
-brew install --cask claude-code
 
+- brew install --cask claude-code
+- From self-service install NetSkope SSL. If you dont see NetSkope: run 
+
+NODE_TLS_REJECT_UNAUTHORIZED=0 claude
+
+- Use API Billing to login into Claude(You must activate your Claude code account before login)
+
+Slack Channel: #premium-builder-ai-claude-code
 
 # GitHub CLI (macOS)
 brew install gh
