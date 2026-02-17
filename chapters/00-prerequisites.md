@@ -8,10 +8,9 @@ Make sure these are set up **before** the session starts. We won't have time to 
 # Verify everything is installed:
 git --version           # Git CLI
 claude --version        # Claude Code CLI
-go version              # Go toolchain
-goimports -help 2>&1 | head -1   # goimports (go install golang.org/x/tools/cmd/goimports@latest)
 gh --version            # GitHub CLI (for PR workflows)
 ```
+**Note: We will be using Go language for writing code. But you can use any language of your choice**
 
 ### Install if missing
 
