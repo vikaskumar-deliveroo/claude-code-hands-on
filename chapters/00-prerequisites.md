@@ -22,9 +22,9 @@ xcode-select --install          # or: brew install git
 # Claude Code
 
 - brew install --cask claude-code
-- From self-service install NetSkope SSL. If you dont see NetSkope: run 
+- From self-service install NetSkope SSL. 
 
-NODE_TLS_REJECT_UNAUTHORIZED=0 claude
+
 
 - Use API Billing to login into Claude(You must activate your Claude code account before login)
 
@@ -35,8 +35,10 @@ brew install gh
 ```
 
 ## Auth Setup
-- You need an Anthropic API key or organization SSO configured
+- You need to activate Claude account before you can login.
+- Use API Billing based login and then sign-in using SSO
 - Run `claude` once and complete the login flow before the workshop
+- If you dont see NetSkope, then run `NODE_TLS_REJECT_UNAUTHORIZED=0 claude` in terminal 
 
 ## Permission Prompts (important for first-time users)
 
