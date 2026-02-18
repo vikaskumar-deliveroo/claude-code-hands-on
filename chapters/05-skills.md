@@ -14,6 +14,7 @@ A skill is just a markdown file with a YAML frontmatter header:
 ```
 
 The frontmatter tells Claude:
+
 - `name` - the `/slash-command` name
 - `description` - when to use it (Claude reads this to auto-suggest)
 - `user_invocable: true` - enables `/name` trigger
@@ -42,58 +43,76 @@ Validate, commit, review, push, and create a draft pull request.
 ## Steps
 
 ### Step 1: Check for changes
+
 git status --short
+
 - If no changes, inform the user and stop.
 
 ### Step 2: Format Code
+
 make goimports
+
 - Fix any formatting issues, re-run until clean.
 
 ### Step 3: Run Lint
+
 make lint
+
 - CRITICAL: Must exit zero. Watch for missing tools causing partial lint.
 - Fix issues and re-run until clean.
 
 ### Step 4: Run Unit Tests
+
 make test/unit
+
 - All tests must pass. Fix failures before proceeding.
 - Known pre-existing failures on master: TestCollectionView,
   TestHomeFeedDeepLinking, TestTranslations — ignore if they also
   fail on master.
 
 ### Step 5: Stage and Commit
-git add <specific-files>   # NEVER use git add -A or git add .
+
+git add <specific-files> # NEVER use git add -A or git add .
 git commit -m "<concise message>"
 
 Rules:
+
 - Stage only files related to the change. Never git add -A.
 - Do NOT use --author flag. Git config is already set.
 - NEVER add Claude as co-author.
 
-### Step 6: Sub-Agent Code Review (MANDATORY)         <- uses agent!
+### Step 6: Sub-Agent Code Review (MANDATORY) <- uses agent!
+
 After committing, launch a code-reviewer sub-agent:
+
 - Review the changes in the last commit (git diff HEAD~1)
 - Focus on bugs, logic errors, and security issues
 - Address any valid HIGH-confidence issues
 - If changes were made, go back to Step 2 and re-validate
 
 ### Step 7: Push to Remote
+
 git push -u origin <current-branch-name>
+
 - Ensure branch follows <your-name>/ prefix convention.
 
 ### Step 8: Create Draft PR
+
 - Copy the PR template as-is from .github/PULL_REQUEST_TEMPLATE.md
 - After "Why" section, explain why changes were important
 - In "What are the consequences?", describe changes and impact
 - Always create in draft mode
 
 ### Step 9: Monitor CI
+
 gh pr checks <PR_NUMBER> --watch
+
 - Ignore approval-related checks
 - Fix real CI failures, push fixes, re-monitor
 - Repeat until all non-approval checks pass
 
 ## Blocker Rules
+
 - DO NOT commit if goimports, lint, or unit tests fail
 - DO NOT push if code review has unaddressed issues
 - DO NOT skip the sub-agent review
@@ -145,12 +164,14 @@ user_invocable: true
 4. If clean, confirm the code looks good.
 
 Rules:
+
 - Only review staged changes
 - Be specific - cite line numbers
 - Skip style nits unless they affect correctness
 ```
 
 ## Key Tips
+
 - Skills are project-specific (`.claude/skills/`) or global (`~/.claude/skills/`)
 - Use `user_invocable: true` to enable `/slash-command` syntax
 - Skills can delegate to agents (like the code review step above)
@@ -159,4 +180,4 @@ Rules:
 
 ---
 
-Next: [Chapter 6 - MCP & Plugins](./06-mcp-plugins.md)
+Next: [Chapter 6 - Plan Mode](./06-plan-mode.md)

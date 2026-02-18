@@ -1,4 +1,4 @@
-# Chapter 6: MCP & Plugins - External Integrations (10 min)
+# Chapter 7: MCP & Plugins - External Integrations (10 min)
 
 **What**: MCP (Model Context Protocol) servers and plugins connect Claude to external tools - Jira, Confluence, Datadog, CI, etc. Plugins are the easiest way since they bundle MCP servers + skills in one install.
 
@@ -109,4 +109,4 @@ For integrations without a plugin, use `.claude/mcp.json` (project) or `~/.claud
 
 ---
 
-Next: [Chapter 7 - Putting It All Together](./07-summary.md)
+Next: [Chapter 8 - Putting It All Together](./08-summary.md)

@@ -1,4 +1,4 @@
-# Chapter 7: Putting It All Together (5 min)
+# Chapter 8: Putting It All Together (5 min)
 
 Here's how all pieces work together in a real Go backend workflow:
 
@@ -9,6 +9,7 @@ Memory                -> "Redis pipe_exec latency is payload-driven. Use snappy 
 Hooks                 -> Auto-run goimports on every .go file edit, block go.sum edits
 Agents                -> code-reviewer checks diff for bugs, security, Go-specific issues
 Skills                -> /commitandcreatepr runs imports -> lint -> tests -> review -> PR
+Plan Mode             -> Explore, design, get approval before writing any code
 Plugin (Atlassian)    -> "Create Jira tickets from the Confluence spec page"
 ```
 
@@ -80,4 +81,4 @@ for the least effort. Add skills and agents as you discover repeated workflows.*
 
 ---
 
-Back to: [Workshop Index](../README.md)
+Back to: [Workshop Index](../WORKSHOP.md)
