@@ -13,7 +13,7 @@
 | `Stop` | When Claude finishes its response |
 | `UserPromptSubmit` | When you send a message |
 
-## [Live Exercise] Create a Combined hooks.json (8 min)
+## [Live Exercise] Create a hook in hooks.json (8 min)
 
 Create `.claude/hooks.json` in your repo (or `~/.claude/hooks.json` for global).
 
@@ -53,6 +53,7 @@ Here's a combined file with two hooks - auto-goimports + block generated files:
 ```
 
 This does two things:
+
 1. **PreToolUse** - blocks edits to `go.sum`, `.pb.go`, generated files (exit 1 = block)
 2. **PostToolUse** - auto-runs `goimports` after any `.go` file is written
 
@@ -66,18 +67,75 @@ Add more entries to the same arrays above:
 // Add to "PreToolUse" array - remind about lint before git commit:
 {
   "matcher": "Bash",
-  "hooks": [{
-    "type": "command",
-    "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -qE 'git commit'; then echo 'REMINDER: Run make lint && make test/unit before committing'; fi",
-    "timeout": 3000
-  }]
+  "hooks": [
+    {
+      "type": "command",
+      "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -qE 'git commit'; then echo 'REMINDER: Run make lint && make test/unit before committing'; fi",
+      "timeout": 3000
+    }
+  ]
 }
 ```
 
 Other ideas:
+
 - Block writes to `main`/`master` branch files
 - Auto-run `go vet` after Go file changes
 - Log all Bash commands Claude runs (audit trail for security)
+
+## [Demo] Auto-Save Knowledge Hook (Hooks + Memory)
+
+This is where hooks get really powerful — combining them with Memory from Chapter 2. This `UserPromptSubmit` hook detects when you share project knowledge and nudges Claude to save it automatically.
+
+**How it works**: The hook scans your message for knowledge-sharing patterns ("we use", "remember", "our database", "don't forget", etc.). When detected, it injects a reminder that Claude sees — telling it to save the information to project memory.
+
+**File**: `~/.claude/hooks.json` (or add to your existing hooks)
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "INPUT=\"$CLAUDE_USER_INPUT\"; if echo \"$INPUT\" | grep -qiE '(remember|we use|our (database|db|stack|api|service|cache)|don.t forget|for future reference|FYI|note that|always use|never use|we switched|we migrated|the pattern is|convention is)'; then echo '⚡ KNOWLEDGE DETECTED: The user is sharing project knowledge. Save the key facts to your project memory (MEMORY.md or a topic file). Include: specific names, file paths, versions, and the reason WHY. Do this BEFORE responding to the rest of their message.'; fi",
+            "timeout": 3000
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Try it** — send any of these messages to Claude:
+
+```
+We use Aurora PostgreSQL 14 with read replicas for the restaurant service.
+The main table has 500M rows.
+```
+
+```
+Remember: Redis cluster mode is enabled in production.
+Single-node mode is only for local dev.
+```
+
+```
+FYI our cache invalidation uses Kafka consumers, not TTL expiry.
+The consumer is in internal/kafka/cache_invalidator.go
+```
+
+Without the hook, Claude might just acknowledge and move on. **With the hook**, Claude will proactively save this to its memory files before responding — so it retains the knowledge across sessions.
+
+**Why this is powerful**:
+
+- You never have to explicitly say "save this to memory" — the hook handles it
+- Knowledge accumulates automatically as you chat naturally
+- Combines two features (Hooks + Memory) into something greater than either alone
+- The hook is deterministic (regex match) but the action is intelligent (Claude decides what/how to save)
+
+**Key insight for participants**: Hooks don't have to block or format code. They can **inject context** into Claude's prompt, shaping its behavior in real-time. The `echo` output from a hook becomes part of what Claude sees — making hooks a programmable steering mechanism.
 
 ---
 
