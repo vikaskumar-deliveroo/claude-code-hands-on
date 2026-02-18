@@ -24,13 +24,11 @@ Then say:
 Create ~/.claude/CLAUDE.md with these rules:
 
 # Must Follow
-Must reply to my queries using Formal English
+- Must reply to my queries using Formal English
+- Branch prefix: `<your-name>/`, Example: 'vikas/'
 ```
 
 In your project directory. Create an empty CLAUDE.md, if it already exists then use the existing CLAUDE.md
-
-- Add this to your project CLAUDE.md
-- Branch prefix: `<your-name>/`
 
 ```
 # Must Follow
